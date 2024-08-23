@@ -11,6 +11,7 @@ import { MdContactMail, MdContactPhone } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { TiDelete } from "react-icons/ti";
 import GuitarString from './GuitarString';
+import { useNavigate } from 'react-router-dom';
 
 const SearchBar = ({ value, onChange }) => (
   <div className="relative mt-4">
@@ -91,18 +92,23 @@ const Home = () => {
     vacancy.designation.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const navigate = useNavigate();
+
   const handleEdit = (vacancy) => {
-    // Logic to handle edit action
+    navigate(`/nav/edit/${vacancy.id}`);
   };
 
   const handleDelete = async (id) => {
-    try {
-      await deleteDoc(doc(db, 'vacancies', id));
-      setVacancies(prevVacancies => prevVacancies.filter(vacancy => vacancy.id !== id));
-    } catch (error) {
-      console.error('Error deleting vacancy:', error);
+    if (window.confirm('Are you sure you want to delete this vacancy?')) {
+      try {
+        await deleteDoc(doc(db, 'vacancies', id));
+        setVacancies(prevVacancies => prevVacancies.filter(vacancy => vacancy.id !== id));
+      } catch (error) {
+        console.error('Error deleting vacancy:', error);
+      }
     }
   };
+
 
   return (
     <>
@@ -120,7 +126,7 @@ const Home = () => {
                 key={vacancy.id}
                 vacancy={vacancy}
                 onEdit={handleEdit}
-                onDelete={handleDelete}
+                onDelete={() => handleDelete(vacancy.id)}
               />
             ))}
           </div>

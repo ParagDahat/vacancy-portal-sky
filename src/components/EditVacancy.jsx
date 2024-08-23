@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
-import image from '../assets/vacancy-bg.png';
+import Bgimage from '../assets/common/bg-img.png';
 import Footer from './Footer';
+import { useEffect, useState } from 'react';
 
 const EditVacancy = () => {
-  const { state } = useLocation();
-  const { vacancy } = state;
-  const navigate = useNavigate();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     companyName: '',
@@ -58,7 +56,7 @@ const EditVacancy = () => {
     <>
       <div
         className="flex items-center justify-center min-h-screen bg-cover bg-no-repeat bg-opacity-50 py-5"
-        style={{ backgroundImage: `url(${image})`, backgroundSize: 'cover' }}
+        style={{ backgroundImage: `url(${Bgimage})`, backgroundSize: 'cover' }}
       >
         <div className="bg-white p-8 mx-4 sm:mx-8 md:mx-16 rounded-lg shadow-2xl w-full max-w-2xl bg-opacity-50">
           <h1 className="text-2xl font-bold mb-4 uppercase text-center">Edit Vacancy</h1>
@@ -110,7 +108,6 @@ const EditVacancy = () => {
                 <option value="Internship">Internship</option>
               </select>
             </div>
-
             <div className="mb-4">
               <label className="block text-gray-700 font-medium mb-2" htmlFor="jobDescription">
                 Job Description
@@ -118,7 +115,6 @@ const EditVacancy = () => {
               <textarea
                 id="jobDescription"
                 name="jobDescription"
-                maxLength={50}
                 value={formData.jobDescription}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg resize-none"
@@ -185,11 +181,10 @@ const EditVacancy = () => {
                 />
               </div>
             </div>
-
             <div className="flex gap-3">
               <button
                 type="submit"
-                className="w-1/2  hover:text-white font-bold py-2 px-4 rounded-lg border border-green-800 text-green-600 bg-transparent hover:bg-green-500"
+                className="w-1/2 hover:text-white font-bold py-2 px-4 rounded-lg border border-green-800 text-green-600 bg-transparent hover:bg-green-500"
               >
                 Submit
               </button>
