@@ -1,7 +1,9 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import logo from '../assets/common/logo.png'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebase/firebaseConfig'; // Import your firebase config
 
 const navigation = [
   { name: 'Home', to: '/nav/home', current: true },
@@ -16,6 +18,17 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth); // Sign out from Firebase
+      navigate('/login'); // Redirect to the login page after logout
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    }
+  }
+
   return (
     <>
       <Disclosure as="nav" className="bg-[#B7B597]">
@@ -23,7 +36,7 @@ export default function Navbar() {
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
               {/* Mobile menu button*/}
-              <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-green-100 hover:text-gray-50 ">
+              <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-green-100 hover:text-gray-50">
                 <span className="absolute -inset-0.5" />
                 <span className="sr-only">Open main menu</span>
                 <Bars3Icon aria-hidden="true" className="block h-6 w-6 group-data-[open]:hidden" />
@@ -38,9 +51,21 @@ export default function Navbar() {
                   className="h-8 w-auto"
                 />
               </div>
-                <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-4">
-                    {navigation.map((item) => (
+              <div className="hidden sm:ml-6 sm:block">
+                <div className="flex space-x-4">
+                  {navigation.map((item) => (
+                    item.name === 'Logout' ? (
+                      <button
+                        key={item.name}
+                        onClick={handleLogout}
+                        className={classNames(
+                          'text-[#254336] hover:text-black hover:bg-[#6B8A7A]',
+                          'block rounded-md px-3 py-2 text-base font-medium'
+                        )}
+                      >
+                        {item.name}
+                      </button>
+                    ) : (
                       <Link
                         key={item.name}
                         to={item.to}
@@ -53,7 +78,8 @@ export default function Navbar() {
                       >
                         {item.name}
                       </Link>
-                    ))}
+                      )
+                  ))}
                 </div>
               </div>
             </div>
@@ -62,23 +88,36 @@ export default function Navbar() {
         <DisclosurePanel className="sm:hidden">
           <div className="space-y-1 px-2 pb-3 pt-2">
             {navigation.map((item) => (
-              <DisclosureButton
-                key={item.name}
-                as="a"
-                to={item.to}
-                className={classNames(
-                  item.current ? 'hover:bg-green-300 text-green-100 hover:text-green-950' : 'text-green-100 hover:bg-green-300 hover:text-green-950',
-                  'block rounded-md px-3 py-2 text-base font-medium',
-                  item.name === 'Login' ? 'bg-green-300 hover:bg-green-500 text-green-950 hover:text-green-950' : '',
-                  'block rounded-md px-3 py-2 text-base font-medium',
-                )}
-              >
-                {item.name}
-              </DisclosureButton>
+              item.name === 'Logout' ? (
+                <button
+                  key={item.name}
+                  onClick={handleLogout}
+                  className={classNames(
+                    'text-green-100 hover:bg-green-300 hover:text-green-950',
+                    'block rounded-md px-3 py-2 text-base font-medium'
+                  )}
+                >
+                  {item.name}
+                </button>
+              ) : (
+                  <DisclosureButton
+                    key={item.name}
+                    as="a"
+                    href={item.to}
+                    className={classNames(
+                      item.current ? 'hover:bg-green-300 text-green-100 hover:text-green-950' : 'text-green-100 hover:bg-green-300 hover:text-green-950',
+                      'block rounded-md px-3 py-2 text-base font-medium',
+                      item.name === 'Login' ? 'bg-green-300 hover:bg-green-500 text-green-950 hover:text-green-950' : '',
+                    'block rounded-md px-3 py-2 text-base font-medium'
+                  )}
+                  >
+                    {item.name}
+                  </DisclosureButton>
+                )
             ))}
           </div>
         </DisclosurePanel>
-      </Disclosure >
+      </Disclosure>
       <Outlet />
     </>
   )

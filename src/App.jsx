@@ -9,6 +9,8 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Navbar from './components/Navbar';
 import EditVacancy from './components/EditVacancy';
+import CandidateEdit from './components/CandidateEdit';
+import CandidateShow from './components/CandidateShow';
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
           <Route path="home" element={<Home />} />
           <Route path="add-vacancy" element={<Vacancy />} />
           <Route path="add-candidate" element={<CandidateForm />} />
+          <Route path="edit-candidate/:id" element={<CandidateEdit />} />
+          <Route path="show-candidate/:id" element={<CandidateShow />} />
           <Route path="view-candidates" element={<CandidateList />} />
           <Route path="edit/:id" element={<EditVacancy />} />
           <Route path="logout" element={<Logout />} />
