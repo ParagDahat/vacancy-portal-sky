@@ -1,7 +1,7 @@
-import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import logo from '../assets/common/logo.png'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import logo from '../assets/common/logo.png';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase/firebaseConfig'; // Import your firebase config
 
@@ -11,10 +11,10 @@ const navigation = [
   { name: 'Add Candidate', to: '/nav/add-candidate', current: false },
   { name: 'View Candidates', to: '/nav/view-candidates', current: false },
   { name: 'Logout', to: '/nav/logout', current: false },
-]
+];
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(' ');
 }
 
 export default function Navbar() {
@@ -25,9 +25,9 @@ export default function Navbar() {
       await signOut(auth); // Sign out from Firebase
       navigate('/login'); // Redirect to the login page after logout
     } catch (error) {
-      console.error("Error signing out: ", error);
+      console.error('Error signing out: ', error);
     }
-  }
+  };
 
   return (
     <>
@@ -35,7 +35,7 @@ export default function Navbar() {
         <div className="mx-auto max-w-9xl px-2 sm:px-6 lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-              {/* Mobile menu button*/}
+              {/* Mobile menu button */}
               <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-green-100 hover:text-gray-50">
                 <span className="absolute -inset-0.5" />
                 <span className="sr-only">Open main menu</span>
@@ -44,7 +44,7 @@ export default function Navbar() {
               </DisclosureButton>
             </div>
             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-between">
-              <div className="flex flex-shrink-0 items-center bg-[#0f271c] rounded-xl p-1" >
+              <div className="flex flex-shrink-0 items-center bg-[#0f271c] rounded-xl p-1">
                 <img
                   alt="Your Company"
                   src={logo}
@@ -71,9 +71,7 @@ export default function Navbar() {
                         to={item.to}
                         className={classNames(
                           item.current ? 'hover:bg-[#6B8A7A] hover:text-black text-[#254336]' : 'text-[#254336] hover:text-black hover:bg-[#6B8A7A]',
-                          'block rounded-md px-3 py-2 text-base font-medium',
-                          item.name === 'Login' ? 'bg-green-300 hover:bg-green-500 text-green-950 hover:text-green-950' : '',
-                          'block rounded-md px-3 py-2 text-base font-medium',
+                          'block rounded-md px-3 py-2 text-base font-medium'
                         )}
                       >
                         {item.name}
@@ -100,19 +98,16 @@ export default function Navbar() {
                   {item.name}
                 </button>
               ) : (
-                  <DisclosureButton
+                  <Link
                     key={item.name}
-                    as="a"
-                    href={item.to}
+                    to={item.to}
                     className={classNames(
                       item.current ? 'hover:bg-green-300 text-green-100 hover:text-green-950' : 'text-green-100 hover:bg-green-300 hover:text-green-950',
-                      'block rounded-md px-3 py-2 text-base font-medium',
-                      item.name === 'Login' ? 'bg-green-300 hover:bg-green-500 text-green-950 hover:text-green-950' : '',
                     'block rounded-md px-3 py-2 text-base font-medium'
                   )}
                   >
                     {item.name}
-                  </DisclosureButton>
+                  </Link>
                 )
             ))}
           </div>
@@ -120,5 +115,5 @@ export default function Navbar() {
       </Disclosure>
       <Outlet />
     </>
-  )
+  );
 }
