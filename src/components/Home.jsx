@@ -10,7 +10,7 @@ import { IoLocation } from "react-icons/io5";
 import { MdContactMail, MdContactPhone } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { TiDelete } from "react-icons/ti";
-import GuitarString from './GuitarString';
+// import GuitarString from './GuitarString';
 import { useNavigate } from 'react-router-dom';
 
 const SearchBar = ({ value, onChange }) => (
@@ -116,7 +116,7 @@ const Home = () => {
        
         <SearchBar value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
         <div className="flex flex-col items-center mt-8">
-        <GuitarString/>
+          {/* <GuitarString/> */}
           <span className="sticky top-0  px-2 py-1 text-2xl font-bold text-black rounded-full ">
             New Vacancies
           </span>
